@@ -1,0 +1,28 @@
+## Dummy CSV data for owner, trainer, and member dashboards.
+
+role,metric,value,month
+owner,revenue,10,Jan
+owner,revenue,20,Feb
+owner,revenue,15,Mar
+owner,active_members,312,
+owner,expired_memberships,48,
+owner,new_signups,85,
+owner,trainer_commission,12500,
+owner,retention,80,Jan
+owner,retention,85,Feb
+owner,retention,90,Mar
+
+trainer,clients,John Doe;Jane Smith;Mark Johnson;Emily Brown,
+trainer,sessions_completed,45,
+trainer,earnings,2150,
+trainer,compliance,0.82,
+
+member,membership_days_left,45,
+member,workouts_this_month,25,
+member,attendance_S,0.14,
+member,attendance_M,0.86,
+member,goals_achieved,3,
+member,upcoming_class,2025-04-28 09:00,
+
+
+
