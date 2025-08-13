@@ -1,152 +1,167 @@
+// lib/screens/trainer_dashboard.dart
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/colors.dart';
 import '../models/trainer_clients_modals.dart';
 import '../models/trainer_revenue_modal.dart';
 import '../models/trainer_schedule_modal.dart';
 import '../widgets/custom_widgets.dart';
+import '../providers/dashboard_provider.dart';
+import '../services/dashboard_data_service.dart';
+import '../models/data_models.dart';
 
 // Note: The 'DonutChartPainter' class is included at the end of this file.
 
-class TrainerDashboard extends StatefulWidget {
+class TrainerDashboard extends ConsumerStatefulWidget {
   const TrainerDashboard({super.key});
 
   @override
-  State<TrainerDashboard> createState() => _TrainerDashboardState();
+  ConsumerState<TrainerDashboard> createState() => _TrainerDashboardState();
 }
 
-class _TrainerDashboardState extends State<TrainerDashboard> {
+class _TrainerDashboardState extends ConsumerState<TrainerDashboard> {
   bool showClientsModal = false;
   bool showRevenueModal = false;
   bool showScheduleModal = false;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              // Header Card
-              GradientCard(
-                gradient: AppColors.trainerGradient,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final dataAsyncValue = ref.watch(dashboardProvider);
+
+    return dataAsyncValue.when(
+      data: (_) {
+        final trainersData = DashboardDataService.getTrainers();
+        final trainer = trainersData.firstWhere((t) => t.name == 'Sarah Wilson');
+        final trainerClients = DashboardDataService.getTrainerClients();
+
+        return Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  // Header Card
+                  GradientCard(
+                    gradient: AppColors.trainerGradient,
+                    child: Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: const Icon(
-                                Icons.people,
-                                color: Colors.white,
-                                size: 24,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Row(
                               children: [
-                                Text(
-                                  'Sarah Wilson',
-                                  style: TextStyle(
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const Icon(
+                                    Icons.people,
                                     color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                                    size: 24,
                                   ),
                                 ),
-                                Row(
+                                const SizedBox(width: 12),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(Icons.star, color: Colors.yellow, size: 14),
-                                    SizedBox(width: 4),
                                     Text(
-                                      '4.9 Rating',
-                                      style: TextStyle(
+                                      trainer.name,
+                                      style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 12,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
                                       ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Icon(Icons.star, color: Colors.yellow, size: 14),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          '${trainer.rating} Rating',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ],
                             ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '₹${(trainer.monthlyRevenue / 1000).toStringAsFixed(1)}k',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const Text(
+                                  'This Month',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                        const SizedBox(height: 16),
+                        Row(
                           children: [
-                            Text(
-                              '₹8.2k',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            _buildHeaderButton(
+                              onTap: () => setState(() => showClientsModal = true),
+                              value: trainer.totalClients.toString(),
+                              label: 'Clients',
                             ),
-                            Text(
-                              'This Month',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
+                            const SizedBox(width: 12),
+                            _buildHeaderButton(
+                              onTap: () => setState(() => showRevenueModal = true),
+                              icon: Icons.bar_chart,
+                              label: 'Revenue',
+                            ),
+                            const SizedBox(width: 12),
+                            _buildHeaderButton(
+                              onTap: () => setState(() => showScheduleModal = true),
+                              icon: Icons.calendar_today,
+                              label: 'Schedule',
                             ),
                           ],
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        _buildHeaderButton(
-                          onTap: () => setState(() => showClientsModal = true),
-                          value: '28',
-                          label: 'Clients',
-                        ),
-                        const SizedBox(width: 12),
-                        _buildHeaderButton(
-                          onTap: () => setState(() => showRevenueModal = true),
-                          icon: Icons.bar_chart,
-                          label: 'Revenue',
-                        ),
-                        const SizedBox(width: 12),
-                        _buildHeaderButton(
-                          onTap: () => setState(() => showScheduleModal = true),
-                          icon: Icons.calendar_today,
-                          label: 'Schedule',
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildTasksAndProgressCard(),
+                  const SizedBox(height: 16),
+                  _buildGoalsAndMetricsRow(),
+                  const SizedBox(height: 16),
+                  _buildTopClientsCard(trainerClients),
+                  const SizedBox(height: 80), // Bottom padding
+                ],
               ),
-              const SizedBox(height: 16),
-              // -- START: NEW WIDGETS --
-              _buildTasksAndProgressCard(),
-              const SizedBox(height: 16),
-              _buildGoalsAndMetricsRow(),
-              const SizedBox(height: 16),
-              _buildTopClientsCard(),
-              // -- END: NEW WIDGETS --
-              const SizedBox(height: 80), // Bottom padding
-            ],
-          ),
-        ),
-        // Modals
-        if (showClientsModal)
-          TrainerClientsModal(onClose: () => setState(() => showClientsModal = false)),
-        if (showRevenueModal)
-          TrainerRevenueModal(onClose: () => setState(() => showRevenueModal = false)),
-        if (showScheduleModal)
-          TrainerScheduleModal(onClose: () => setState(() => showScheduleModal = false)),
-      ],
+            ),
+            // Modals
+            if (showClientsModal)
+              TrainerClientsModal(onClose: () => setState(() => showClientsModal = false)),
+            if (showRevenueModal)
+              TrainerRevenueModal(onClose: () => setState(() => showRevenueModal = false)),
+            if (showScheduleModal)
+              TrainerScheduleModal(onClose: () => setState(() => showScheduleModal = false)),
+          ],
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(child: Text('Error: $error')),
     );
   }
 
@@ -409,7 +424,11 @@ class _TrainerDashboardState extends State<TrainerDashboard> {
   }
 
   // Top Clients Card
-  Widget _buildTopClientsCard() {
+  Widget _buildTopClientsCard(List<TrainerClient> clients) {
+    // You may need to adjust this to show the top clients based on some criteria
+    // For now, it shows the first two clients from the list.
+    final topClients = clients.take(2).toList();
+
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -423,21 +442,16 @@ class _TrainerDashboardState extends State<TrainerDashboard> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            _buildTopClientRow(
-              initial: 'J',
-              name: 'John D.',
-              goal: 'Weight Loss',
-              percentage: 75,
-              color: Colors.purple.shade700,
-            ),
-            const SizedBox(height: 12),
-            _buildTopClientRow(
-              initial: 'S',
-              name: 'Sarah M.',
-              goal: 'Strength',
-              percentage: 90,
-              color: Colors.pink.shade400,
-            ),
+            ...topClients.map((client) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: _buildTopClientRow(
+                initial: client.name.substring(0, 1),
+                name: client.name,
+                goal: client.plan, // Assuming 'plan' can serve as a 'goal' here
+                percentage: (client.totalSessions / 100 * 100).toInt(), // Placeholder progress calculation
+                color: Colors.purple.shade700, // Placeholder color
+              ),
+            )),
           ],
         ),
       ),

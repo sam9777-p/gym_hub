@@ -1,64 +1,80 @@
+// lib/screens/owner_dashboard.dart
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/colors.dart';
 import '../models/members_modal.dart';
 import '../models/revenue_modal.dart';
 import '../models/trainer_modal.dart';
 import '../widgets/custom_widgets.dart';
+import '../providers/dashboard_provider.dart';
+import '../services/dashboard_data_service.dart';
+import '../models/data_models.dart';
 
 // Note: The 'DonutChartPainter' class is included at the end of this file.
 
-class OwnerDashboard extends StatefulWidget {
+class OwnerDashboard extends ConsumerStatefulWidget {
   const OwnerDashboard({super.key});
 
   @override
-  State<OwnerDashboard> createState() => _OwnerDashboardState();
+  ConsumerState<OwnerDashboard> createState() => _OwnerDashboardState();
 }
 
-class _OwnerDashboardState extends State<OwnerDashboard> {
+class _OwnerDashboardState extends ConsumerState<OwnerDashboard> {
   bool showRevenueModal = false;
   bool showMembersModal = false;
   bool showTrainersModal = false;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              // Header Card
-              _buildHeaderCard(),
-              const SizedBox(height: 16),
-              // Business Objectives
-              _buildBusinessObjectivesCard(),
-              const SizedBox(height: 16),
-              // -- START: NEW WIDGETS --
-              _buildMembershipAndFacilityRow(),
-              const SizedBox(height: 16),
-              _buildRevenueTrendCard(),
-              const SizedBox(height: 16),
-              _buildSmartAlertsCard(),
-              // -- END: NEW WIDGETS --
-              const SizedBox(height: 80), // Bottom padding
-            ],
-          ),
-        ),
-        // Modals
-        if (showRevenueModal)
-          RevenueModal(onClose: () => setState(() => showRevenueModal = false)),
-        if (showMembersModal)
-          MembersModal(onClose: () => setState(() => showMembersModal = false)),
-        if (showTrainersModal)
-          TrainersModal(onClose: () => setState(() => showTrainersModal = false)),
-      ],
+    final dataAsyncValue = ref.watch(dashboardProvider);
+
+    return dataAsyncValue.when(
+      data: (_) {
+        final members = DashboardDataService.getMembers();
+        final trainers = DashboardDataService.getTrainers();
+
+        return Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  // Header Card
+                  _buildHeaderCard(members, trainers),
+                  const SizedBox(height: 16),
+                  // Business Objectives
+                  _buildBusinessObjectivesCard(),
+                  const SizedBox(height: 16),
+                  // -- START: NEW WIDGETS --
+                  _buildMembershipAndFacilityRow(),
+                  const SizedBox(height: 16),
+                  _buildRevenueTrendCard(),
+                  const SizedBox(height: 16),
+                  _buildSmartAlertsCard(),
+                  // -- END: NEW WIDGETS --
+                  const SizedBox(height: 80), // Bottom padding
+                ],
+              ),
+            ),
+            // Modals
+            if (showRevenueModal)
+              RevenueModal(onClose: () => setState(() => showRevenueModal = false)),
+            if (showMembersModal)
+              MembersModal(onClose: () => setState(() => showMembersModal = false)),
+            if (showTrainersModal)
+              TrainersModal(onClose: () => setState(() => showTrainersModal = false)),
+          ],
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(child: Text('Error: $error')),
     );
   }
 
   // --- WIDGET BUILDER METHODS --- //
 
-  Widget _buildHeaderCard() {
+  Widget _buildHeaderCard(List<Member> members, List<Trainer> trainers) {
     return GradientCard(
       gradient: AppColors.ownerGradient,
       child: Column(
@@ -123,13 +139,13 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
               const SizedBox(width: 12),
               _buildHeaderButton(
                 onTap: () => setState(() => showMembersModal = true),
-                value: '168',
+                value: members.length.toString(),
                 label: 'Members',
               ),
               const SizedBox(width: 12),
               _buildHeaderButton(
                 onTap: () => setState(() => showTrainersModal = true),
-                value: '4',
+                value: trainers.length.toString(),
                 label: 'Trainers',
               ),
             ],
@@ -175,13 +191,7 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
   }
 
   Widget _buildBusinessObjectivesCard() {
-    // Assuming SampleData.ownerObjectives now provides the correct data
-    final objectives = [
-      {'icon': '🎯', 'name': 'Monthly Revenue Target', 'current': '₹58k', 'target': '₹60k', 'progress': 97.0},
-      {'icon': '👥', 'name': 'Member Retention', 'current': '92%', 'target': '95%', 'progress': 92.0},
-      {'icon': '🏋️', 'name': 'Equipment Upgrades', 'current': '5', 'target': '5', 'progress': 100.0},
-      {'icon': '👨‍🏫', 'name': 'Staff Training', 'current': '6', 'target': '8', 'progress': 75.0},
-    ];
+    final objectives = DashboardDataService.getOwnerObjectives();
 
     return Card(
       elevation: 2,
@@ -197,10 +207,10 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
             ),
             const SizedBox(height: 16),
             ...objectives.map((obj) => _buildObjectiveRow(
-              icon: obj['icon'] as String,
-              title: obj['name'] as String,
-              progressText: '${obj['current']} / ${obj['target']}',
-              progressValue: obj['progress'] as double,
+              icon: obj.icon,
+              title: obj.name,
+              progressText: '${obj.current} / ${obj.target}',
+              progressValue: obj.progress.toDouble(),
             )),
           ],
         ),

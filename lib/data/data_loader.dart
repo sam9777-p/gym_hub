@@ -1,43 +1,38 @@
+// lib/data/data_loader.dart
 import 'package:csv/csv.dart';
 
 class DataLoader {
-  // The CSV data is hardcoded here for demonstration purposes.
-  // Updated with more data and a 'churn_date' column for richer insights.
-  // All blank entries have been filled.
   static const String _csvString = """
-user_id,user_type,name,email,membership_status,join_date,expiry_date,last_check_in,trainer_id,trainer_name,revenue_date,revenue_amount,revenue_source,class_name,class_date,class_occupancy,class_capacity,feedback_score,feedback_comment,goal_type,goal_target,goal_current,workout_date,workout_duration_min,workout_type,exercise,sets,reps,weight_kg,attendance_date,commission_date,commission_amount,lead_date,signup_date,churn_date
-
-# Owner Transactions
-1,owner,Alex Ray,alex.ray@example.com,premium,2023-01-01,2024-01-01,2023-12-31,0,null,2023-10-01,5000,memberships,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,2023-09-15,2023-10-01,0,2023-08-20,2023-09-01,2025-01-01
-1,owner,Alex Ray,alex.ray@example.com,premium,2023-01-01,2024-01-01,2023-12-31,0,null,2023-10-01,1500,personal_training,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,2023-09-15,2023-10-01,0,2023-08-20,2023-09-01,2025-01-01
-1,owner,Alex Ray,alex.ray@example.com,premium,2023-01-01,2024-01-01,2023-12-31,0,null,2023-10-01,250,merchandise,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,2023-09-15,2023-10-01,0,2023-08-20,2023-09-01,2025-01-01
-
-# Class Feedback
-1,owner,Alex Ray,alex.ray@example.com,premium,2023-01-01,2024-01-01,2023-12-15,0,null,2023-12-15,0,feedback,Yoga,2023-12-15,18,20,4.8,Great class!,null,null,null,null,null,null,null,null,null,2023-12-15,2023-12-20,0,2023-11-10,2023-12-01,2025-01-01
-1,owner,Alex Ray,alex.ray@example.com,premium,2023-01-01,2024-01-01,2023-12-15,0,null,2023-12-15,0,feedback,HIIT,2023-12-15,25,25,4.6,Loved the energy.,null,null,null,null,null,null,null,null,null,2023-12-15,2023-12-20,0,2023-11-10,2023-12-01,2025-01-01
-
-# Sample Revenue Data
-99,revenue,Personal Training Session,pt@example.com,active,2025-08-10,2026-08-10,2025-08-10,8,Ben Carter,2025-08-10,1500,personal_training,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
-99,revenue,Group Class Pass,gc@example.com,active,2025-08-10,2026-08-10,2025-08-10,8,Ben Carter,2025-08-10,500,group_classes,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
-99,revenue,Nutrition Plan,np@example.com,active,2025-08-10,2026-08-10,2025-08-10,8,Ben Carter,2025-08-10,800,nutrition_consulting,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
-99,revenue,Online Session Pack,os@example.com,active,2025-08-10,2026-08-10,2025-08-10,8,Ben Carter,2025-08-11,2200,online_sessions,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
-
-# Trainers
-8,trainer,Ben Carter,ben.carter@example.com,active,2023-02-01,2024-02-01,2023-12-01,8,Ben Carter,null,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,2023-12-01,2023-12-05,1800,2023-01-05,2023-02-01,2025-02-01
-17,trainer,Laura King,laura.king@example.com,active,2023-03-01,2024-03-01,2023-12-01,17,Laura King,null,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,2023-12-01,2023-12-05,1750,2023-01-10,2023-03-01,2025-03-01
-
-# Members & Workouts
-11,member,Chloe Davis,chloe.davis@example.com,active,2023-10-05,2024-10-05,2023-12-28,8,Ben Carter,null,0,null,null,null,4.2,null,weight_loss,60,65,2023-12-28,60,cardio,Treadmill,1,30,0,2023-12-28,2023-12-29,0,2023-09-28,2023-10-05,2025-04-05
-11,member,Chloe Davis,chloe.davis@example.com,active,2023-10-05,2024-10-05,2023-12-26,8,Ben Carter,null,0,null,null,null,4.5,null,weight_loss,60,65,2023-12-26,45,strength,Squats,3,10,50,2023-12-26,2023-12-27,0,2023-09-28,2023-10-05,2025-04-05
-13,member,David Evans,david.evans@example.com,active,2023-10-12,2024-10-12,2023-12-27,8,Ben Carter,null,0,null,null,null,4.7,null,muscle_gain,85,83,2023-12-27,75,strength,Bench Press,4,8,80,2023-12-27,2023-12-28,0,2023-10-01,2023-10-12,2025-04-12
-15,member,Fiona Green,fiona.green@example.com,expired,2022-12-01,2023-12-01,2023-11-25,8,Ben Carter,null,0,null,null,null,3.8,null,maintenance,70,70,2023-11-25,45,cardio,Rowing,1,20,0,2023-11-25,2023-11-26,0,2022-11-20,2022-12-01,2023-12-02
+user_id,user_type,name,status,plan,monthly_fee,last_visit,total_visits,trainer_id,specialization,rating,experience,monthly_revenue,daily_classes,total_clients,success_rate,session_id,class_name,time,type,duration,participants,location,description,goal_name,goal_icon,current_value,target_value,progress,gym_rank,district_rank,state_rank,workout_date,workout_type,workout_icon,calories,exercises,revenue_category,revenue_amount,revenue_percentage,revenue_color,feedback_trainer_name,feedback_comment,feedback_rating,feedback_workout_type,feedback_date
+1,owner,Alex Ray,active,Premium,2500,2024-12-08,45,1,Strength & Conditioning,4.9,5 years,8200,6,28,92,1,Morning Strength,6:00 AM - 7:00 AM,Group Class,60,12,Main Floor,Full body strength training with compound movements,Weight Loss Goal,⚖️,8,15,53,12,45,180,2024-12-08,Strength,💪,420,Deadlift|Bench Press|Rows,Memberships,35000,60,#360167,Sarah Wilson,Excellent form corrections and motivating coaching!,5,Strength Training,Dec 7, 2024
+2,owner,Alex Ray,active,Basic,1500,2024-12-07,32,1,Strength & Conditioning,4.9,5 years,8200,6,28,92,2,Personal Training - Alex,8:00 AM - 9:00 AM,Personal Training,60,1,Private Room 1,Weight loss focused training with cardio intervals,Strength Training,💪,25,50,50,8,32,156,2024-12-07,Cardio,🏃,380,Treadmill|Cycling|Burpees,Personal Training,15000,26,#CF268A,Mike Rodriguez,Great cardio session, pushed me to my limits safely.,4,Cardio,Dec 5, 2024
+3,owner,Alex Ray,expired,Premium,2500,2024-11-28,78,2,Cardio & Weight Loss,4.7,3 years,6500,5,22,88,3,HIIT Bootcamp,10:00 AM - 11:00 AM,Group Class,60,15,Studio A,High intensity interval training for all fitness levels,Cardio Endurance,🏃,18,30,60,15,67,234,2024-11-28,Legs,🦵,450,Squats|Leg Press|Calf Raises,Classes,5000,9,#E65C9C,Lisa Chen,Very relaxing and helped improve my flexibility.,5,Yoga,Dec 3, 2024
+4,owner,Alex Ray,retained,Premium,2500,2024-12-08,156,2,Cardio & Weight Loss,4.7,3 years,6500,5,22,88,4,Personal Training - Maria,2:00 PM - 3:00 PM,Personal Training,60,1,Private Room 2,Strength building and muscle toning program,Weight Loss,⚖️,8,15,53,12,45,180,2024-12-06,Flexibility,🧘,180,Yoga|Stretching|Meditation,Supplements,3000,5,#FB8CAB,null,null,null,null,null
+5,owner,Alex Ray,null,null,null,null,null,3,Yoga & Flexibility,4.8,4 years,5800,4,35,95,5,Evening Cardio,6:00 PM - 7:00 PM,Group Class,60,20,Main Floor,Mixed cardio workout with music and motivation,Muscle Gain,💪,3,8,38,8,32,156,2024-12-05,Upper Body,💪,350,Pull-ups|Lat Pulldown|Bicep Curls,null,null,null,null,null,null,null,null,null
+6,owner,Alex Ray,null,null,null,null,null,4,CrossFit & HIIT,4.6,6 years,7200,5,25,90,null,null,null,null,null,null,null,null,Cardio Fitness,❤️,18,30,60,15,67,234,2024-12-04,HIIT,⚡,320,HIIT|Jump Rope|Mountain Climbers,null,null,null,null,null,null,null,null,null
+7,member,John Smith,active,Premium,2500,2024-12-08,45,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Weight Loss Goal,⚖️,8,15,53,12,45,180,2024-12-08,Strength,💪,420,Deadlift|Bench Press|Rows,null,null,null,null,null,null,null,null,null
+8,member,Sarah Johnson,expiring,Basic,1500,2024-12-07,32,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Strength Training,💪,25,50,50,8,32,156,2024-12-07,Cardio,🏃,380,Treadmill|Cycling|Burpees,null,null,null,null,null,null,null,null,null
+9,member,Mike Wilson,expired,Premium,2500,2024-11-28,78,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Cardio Endurance,🏃,18,30,60,15,67,234,2024-11-28,Legs,🦵,450,Squats|Leg Press|Calf Raises,null,null,null,null,null,null,null,null,null
+10,member,Emily Davis,retained,Premium,2500,2024-12-08,156,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Weight Loss,⚖️,8,15,53,12,45,180,2024-12-06,Flexibility,🧘,180,Yoga|Stretching|Meditation,null,null,null,null,null,null,null,null,null
+11,member,Alex Johnson,active,Personal Training,4000,2024-12-08,24,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Muscle Gain,💪,3,8,38,8,32,156,2024-12-05,Upper Body,💪,350,Pull-ups|Lat Pulldown|Bicep Curls,null,null,null,null,null,null,null,null,null
+12,member,Maria Garcia,expiring,Group Training,2000,2024-12-07,18,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Cardio Fitness,❤️,18,30,60,15,67,234,2024-12-04,HIIT,⚡,320,HIIT|Jump Rope|Mountain Climbers,null,null,null,null,null,null,null,null,null
+13,member,James Brown,expired,Personal Training,4000,2024-11-28,45,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+14,member,Jennifer Lee,retained,Premium Training,5000,2024-12-08,67,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+15,trainer,Sarah Wilson,null,null,null,null,null,null,Strength & Conditioning,4.9,5 years,8200,6,28,92,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Personal Training,5000,61,#360167,Sarah Wilson,Excellent form corrections and motivating coaching!,5,Strength Training,Dec 7, 2024
+16,trainer,Mike Rodriguez,null,null,null,null,null,null,Cardio & Weight Loss,4.7,3 years,6500,5,22,88,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Group Classes,2000,24,#CF268A,Mike Rodriguez,Great cardio session, pushed me to my limits safely.,4,Cardio,Dec 5, 2024
+17,trainer,Lisa Chen,null,null,null,null,null,null,Yoga & Flexibility,4.8,4 years,5800,4,35,95,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Nutrition Coaching,800,10,#E65C9C,Lisa Chen,Very relaxing and helped improve my flexibility.,5,Yoga,Dec 3, 2024
+18,trainer,David Thompson,null,null,null,null,null,null,CrossFit & HIIT,4.6,6 years,7200,5,25,90,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Online Sessions,400,5,#FB8CAB,null,null,null,null,null
+19,member,John Doe,active,Personal Training,4000,2024-12-08,24,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+20,member,Jane Smith,expiring,Group Training,2000,2024-12-07,18,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+21,member,Mark Johnson,expired,Personal Training,4000,2024-11-28,45,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+22,member,Emily Brown,retained,Premium Training,5000,2024-12-08,67,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+23,member,Alex Johnson,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Weight Loss Goal,⚖️,8,15,53,12,45,180,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+24,member,Alex Johnson,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Strength Training,💪,25,50,50,8,32,156,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+25,member,Alex Johnson,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,Cardio Endurance,🏃,18,30,60,15,67,234,null,null,null,null,null,null,null,null,null,null,null,null,null,null
 """;
 
-
   static Future<List<List<dynamic>>> loadCsvData() async {
-    // Uses the csv package to convert the string into a list of lists.
     final fields = const CsvToListConverter().convert(_csvString, eol: '\n');
     return fields;
   }
 }
-

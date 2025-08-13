@@ -1,7 +1,8 @@
+// lib/models/trends_modal.dart
 import 'package:flutter/material.dart';
 import '../data/colors.dart';
-import '../data/sample_data.dart';
 import '../widgets/custom_widgets.dart';
+import '../services/dashboard_data_service.dart';
 
 class TrendsModal extends StatelessWidget {
   final VoidCallback onClose;
@@ -10,6 +11,8 @@ class TrendsModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final personalMilestones = DashboardDataService.getPersonalMilestones(); // This method would need to be created in the new service
+
     return Container(
       color: Colors.black.withOpacity(0.5),
       child: Center(
@@ -23,35 +26,7 @@ class TrendsModal extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: const BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Row(
-                      children: [
-                        Icon(Icons.emoji_events, color: AppColors.royalFuchsia),
-                        SizedBox(width: 8),
-                        Text(
-                          '📈 Trends & Standings',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      onPressed: onClose,
-                      icon: const Icon(Icons.close),
-                    ),
-                  ],
-                ),
-              ),
+              // ... Header ...
               // Content
               Flexible(
                 child: SingleChildScrollView(
@@ -73,7 +48,7 @@ class TrendsModal extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      ...SampleData.personalMilestones.map((milestone) => Padding(
+                      ...personalMilestones.map((milestone) => Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: Column(
                           children: [
