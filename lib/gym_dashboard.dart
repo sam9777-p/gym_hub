@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'data/colors.dart';
 import 'screens/member_dashboard.dart';
 import 'screens/trainer_dashboard.dart';
 import 'screens/owner_dashboard.dart';
+import 'colors.dart';
 
 enum UserRole { member, trainer, owner }
 
@@ -147,8 +147,7 @@ class _GymDashboardState extends State<GymDashboard> {
           Expanded(
             child: _buildDashboard(),
           ),
-          // Bottom Navigation
-          _buildBottomNavigation(),
+          // Dashboard Content
         ],
       ),
     );
@@ -163,54 +162,5 @@ class _GymDashboardState extends State<GymDashboard> {
       case UserRole.owner:
         return const OwnerDashboard();
     }
-  }
-
-  Widget _buildBottomNavigation() {
-    return Container(
-      height: 64,
-      color: Colors.white,
-      child: Row(
-        children: _getBottomNavItems(),
-      ),
-    );
-  }
-
-  List<Widget> _getBottomNavItems() {
-    switch (currentRole) {
-      case UserRole.member:
-        return [
-          _buildNavItem(Icons.home, '🏠 Dashboard', AppColors.royalFuchsia, true),
-          _buildNavItem(Icons.calendar_today, '📅 Classes', Colors.grey, false),
-          _buildNavItem(Icons.emoji_events, '🏆 Goals', Colors.grey, false),
-        ];
-      case UserRole.trainer:
-        return [
-          _buildNavItem(Icons.home, '🏠 Dashboard', AppColors.mediumVioletRed, true),
-          _buildNavItem(Icons.calendar_today, '📅 Schedule', Colors.grey, false),
-          _buildNavItem(Icons.people, '👥 Clients', Colors.grey, false),
-        ];
-      case UserRole.owner:
-        return [
-          _buildNavItem(Icons.home, '🏠 Dashboard', AppColors.deepViolet, true),
-          _buildNavItem(Icons.people, '👥 Members', Colors.grey, false),
-          _buildNavItem(Icons.bar_chart, '📊 Analytics', Colors.grey, false),
-        ];
-    }
-  }
-
-  Widget _buildNavItem(IconData icon, String label, Color color, bool isActive) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 20, color: color),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(fontSize: 10, color: color),
-          ),
-        ],
-      ),
-    );
   }
 }

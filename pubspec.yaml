@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+  file_picker: ^10.3.1
   # For creating beautiful charts and graphs
   fl_chart: ^0.68.0
   
@@ -52,5 +52,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/
+    - assets/gym_data.csv
 #    - assets/animations/

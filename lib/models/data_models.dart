@@ -235,3 +235,45 @@ class RecentFeedback {
     required this.date,
   });
 }
+
+class TrainerTask {
+  final String name;
+  final String icon;
+  final int current;
+  final int target;
+  final int progress;
+  final String status;
+
+  TrainerTask({
+    required this.name,
+    required this.icon,
+    required this.current,
+    required this.target,
+    required this.progress,
+    required this.status,
+  });
+}
+
+class MembershipDistribution {
+  final String name;
+  final int value;
+  final Color color;
+
+  MembershipDistribution({
+    required this.name,
+    required this.value,
+    required this.color,
+  });
+}
+
+class ClientGoalsDistribution {
+  final String name;
+  final int value;
+  final Color color;
+
+  ClientGoalsDistribution({
+    required this.name,
+    required this.value,
+    required this.color,
+  });
+}

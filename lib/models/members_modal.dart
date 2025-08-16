@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../data/colors.dart';
-import '../data/sample_data.dart';
-import '../widgets/custom_widgets.dart';
+import '../colors.dart';
+import '../utils/csv_parser.dart';
 
 class MembersModal extends StatefulWidget {
   final VoidCallback onClose;
@@ -13,21 +12,23 @@ class MembersModal extends StatefulWidget {
 }
 
 class _MembersModalState extends State<MembersModal> {
-  String memberFilter = 'all';
+  String searchQuery = '';
+  String selectedFilter = 'All';
 
   @override
   Widget build(BuildContext context) {
-    final filteredMembers = SampleData.membersData.where((member) {
-      if (memberFilter == 'all') return true;
-      return member.status == memberFilter;
+    final filteredMembers = CsvParser.getMembers().where((member) {
+      final matchesSearch = member.name.toLowerCase().contains(searchQuery.toLowerCase());
+      final matchesFilter = selectedFilter == 'All' || member.plan == selectedFilter;
+      return matchesSearch && matchesFilter;
     }).toList();
 
     return Container(
       color: Colors.black.withOpacity(0.5),
       child: Center(
         child: Container(
-          margin: const EdgeInsets.all(16),
-          constraints: const BoxConstraints(maxHeight: 600),
+          margin: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
@@ -35,191 +36,84 @@ class _MembersModalState extends State<MembersModal> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: const BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Row(
-                      children: [
-                        Icon(Icons.people, color: AppColors.royalFuchsia),
-                        SizedBox(width: 8),
-                        Text(
-                          '👥 Member Management',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    '👥 Member Management',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: widget.onClose,
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      onChanged: (value) => setState(() => searchQuery = value),
+                      decoration: const InputDecoration(
+                        hintText: 'Search members...',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  DropdownButton<String>(
+                    value: selectedFilter,
+                    onChanged: (value) => setState(() => selectedFilter = value!),
+                    items: ['All', 'Premium', 'Basic', 'VIP']
+                        .map((filter) => DropdownMenuItem(
+                      value: filter,
+                      child: Text(filter),
+                    ))
+                        .toList(),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                height: 300,
+                child: ListView.builder(
+                  itemCount: filteredMembers.length,
+                  itemBuilder: (context, index) {
+                    final member = filteredMembers[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 4),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: AppColors.royalFuchsia,
+                          child: Text(
+                            member.name[0],
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
-                      ],
-                    ),
-                    IconButton(
-                      onPressed: widget.onClose,
-                      icon: const Icon(Icons.close),
-                    ),
-                  ],
-                ),
-              ),
-              // Filters
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: const BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5)),
-                ),
-                child: Wrap(
-                  spacing: 8,
-                  children: [
-                    _buildFilterChip('all', 'All', SampleData.membersData.length),
-                    _buildFilterChip('active', 'Active', SampleData.membersData.where((m) => m.status == 'active').length),
-                    _buildFilterChip('expiring', 'Expiring', SampleData.membersData.where((m) => m.status == 'expiring').length),
-                    _buildFilterChip('expired', 'Expired', SampleData.membersData.where((m) => m.status == 'expired').length),
-                    _buildFilterChip('retained', 'Retained', SampleData.membersData.where((m) => m.status == 'retained').length),
-                  ],
-                ),
-              ),
-              // Content
-              Flexible(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: filteredMembers.map((member) => Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: AppColors.neutral,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border(
-                            left: BorderSide(color: _getStatusColor(member.status), width: 4),
+                        title: Text(member.name),
+                        subtitle: Text('${member.plan} • Joined ${member.joinDate}'),
+                        trailing: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: member.status == 'Active' ? Colors.green : Colors.orange,
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: AppColors.mediumVioletRed,
-                                  radius: 16,
-                                  child: Text(
-                                    member.name.split(' ').map((n) => n[0]).join(''),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        member.name,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${member.plan} Plan',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[600],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(_getStatusIcon(member.status)),
-                                    const SizedBox(width: 4),
-                                    StatusBadge(
-                                      text: member.status.toUpperCase(),
-                                      backgroundColor: _getStatusColor(member.status),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                          child: Text(
+                            member.status,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
                             ),
-                            const SizedBox(height: 12),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Monthly Fee:',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[600],
-                                        ),
-                                      ),
-                                      Text(
-                                        '₹${member.monthlyFee}',
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.deepViolet,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Total Visits:',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[600],
-                                        ),
-                                      ),
-                                      Text(
-                                        '${member.totalVisits}',
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.deepViolet,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Last Visit:',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[600],
-                                        ),
-                                      ),
-                                      Text(
-                                        member.lastVisit,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                    )).toList(),
-                  ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -227,58 +121,5 @@ class _MembersModalState extends State<MembersModal> {
         ),
       ),
     );
-  }
-
-  Widget _buildFilterChip(String key, String label, int count) {
-    final isSelected = memberFilter == key;
-    return GestureDetector(
-      onTap: () => setState(() => memberFilter = key),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.deepViolet : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.deepViolet),
-        ),
-        child: Text(
-          '$label ($count)',
-          style: TextStyle(
-            fontSize: 12,
-            color: isSelected ? Colors.white : AppColors.deepViolet,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Color _getStatusColor(String status) {
-    switch (status) {
-      case 'active':
-        return AppColors.positive;
-      case 'expiring':
-        return AppColors.warning;
-      case 'expired':
-        return AppColors.alert;
-      case 'retained':
-        return AppColors.mediumVioletRed;
-      default:
-        return AppColors.deepViolet;
-    }
-  }
-
-  String _getStatusIcon(String status) {
-    switch (status) {
-      case 'active':
-        return '✅';
-      case 'expiring':
-        return '⚠️';
-      case 'expired':
-        return '❌';
-      case 'retained':
-        return '🔄';
-      default:
-        return '👤';
-    }
   }
 }

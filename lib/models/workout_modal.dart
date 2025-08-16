@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../data/colors.dart';
-import '../data/sample_data.dart';
+import '../colors.dart';
+import '../utils/csv_parser.dart';
 
 class WorkoutModal extends StatelessWidget {
   final VoidCallback onClose;
@@ -56,7 +56,7 @@ class WorkoutModal extends StatelessWidget {
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(16),
                   child: Column(
-                    children: SampleData.workoutHistory.map((workout) => Padding(
+                    children: CsvParser.getWorkoutHistory().map((workout) => Padding(
                       padding: const EdgeInsets.only(bottom: 12),
                       child: Container(
                         padding: const EdgeInsets.all(16),
@@ -132,11 +132,12 @@ class WorkoutModal extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey[700],
+                                        fontFamily: "Inter"
                                       ),
                                       children: [
                                         const TextSpan(
                                           text: 'Exercises: ',
-                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontFamily: "Inter"),
                                         ),
                                         TextSpan(
                                           text: workout.exercises.join(', '),

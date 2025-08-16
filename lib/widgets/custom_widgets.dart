@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../data/colors.dart';
+import '../colors.dart';
 
 class CircularProgress extends StatelessWidget {
   final int value;

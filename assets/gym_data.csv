@@ -1,30 +1,153 @@
-user_id,user_type,name,email,membership_status,join_date,expiry_date,last_check_in,trainer_id,trainer_name,revenue_date,revenue_amount,revenue_source,class_name,class_date,class_occupancy,class_capacity,feedback_score,feedback_comment,goal_type,goal_target,goal_current,workout_date,workout_duration_min,workout_type,exercise,sets,reps,weight_kg,attendance_date,commission_date,commission_amount,lead_date,signup_date,churn_date
-1,owner,Alex Ray,alex.ray@example.com,N/A,2022-01-01,2025-01-01,2023-12-31,0,N/A,2023-10-01,5000,memberships,N/A,2023-10-01,0,0,0,N/A,N/A,0,0,2023-10-01,0,N/A,N/A,0,0,0,2023-10-01,2023-10-01,0,2023-09-15,2023-10-01,N/A
-1,owner,Alex Ray,alex.ray@example.com,N/A,2022-01-01,2025-01-01,2023-12-31,0,N/A,2023-10-01,1500,personal_training,N/A,2023-10-01,0,0,0,N/A,N/A,0,0,2023-10-01,0,N/A,N/A,0,0,0,2023-10-01,2023-10-01,0,2023-09-15,2023-10-01,N/A
-1,owner,Alex Ray,alex.ray@example.com,N/A,2022-01-01,2025-01-01,2023-12-31,0,N/A,2023-10-01,250,merchandise,N/A,2023-10-01,0,0,0,N/A,N/A,0,0,2023-10-01,0,N/A,N/A,0,0,0,2023-10-01,2023-10-01,0,2023-09-15,2023-10-01,N/A
-1,owner,Alex Ray,alex.ray@example.com,N/A,2022-01-01,2025-01-01,2023-12-31,0,N/A,2023-11-05,5200,memberships,N/A,2023-11-05,0,0,0,N/A,N/A,0,0,2023-11-05,0,N/A,N/A,0,0,0,2023-11-05,2023-11-05,0,2023-10-20,2023-11-05,N/A
-1,owner,Alex Ray,alex.ray@example.com,N/A,2022-01-01,2025-01-01,2023-12-31,0,N/A,2023-11-05,1800,personal_training,N/A,2023-11-05,0,0,0,N/A,N/A,0,0,2023-11-05,0,N/A,N/A,0,0,0,2023-11-05,2023-11-05,0,2023-10-20,2023-11-05,N/A
-1,owner,Alex Ray,alex.ray@example.com,N/A,2022-01-01,2025-01-01,2023-12-31,0,N/A,2023-11-05,300,merchandise,N/A,2023-11-05,0,0,0,N/A,N/A,0,0,2023-11-05,0,N/A,N/A,0,0,0,2023-11-05,2023-11-05,0,2023-10-20,2023-11-05,N/A
-1,owner,Alex Ray,alex.ray@example.com,N/A,2022-01-01,2025-01-01,2023-12-31,0,N/A,2023-12-10,5500,memberships,N/A,2023-12-10,0,0,0,N/A,N/A,0,0,2023-12-10,0,N/A,N/A,0,0,0,2023-12-10,2023-12-10,0,2023-11-25,2023-12-10,N/A
-1,owner,Alex Ray,alex.ray@example.com,N/A,2022-01-01,2025-01-01,2023-12-31,0,N/A,2023-12-10,2000,personal_training,N/A,2023-12-10,0,0,0,N/A,N/A,0,0,2023-12-10,0,N/A,N/A,0,0,0,2023-12-10,2023-12-10,0,2023-11-25,2023-12-10,N/A
-1,owner,Alex Ray,alex.ray@example.com,N/A,2022-01-01,2025-01-01,2023-12-31,0,N/A,2023-12-15,0,N/A,Yoga,2023-12-15,18,20,8,Great class!,N/A,0,0,2023-12-15,0,N/A,N/A,0,0,0,2023-12-15,2023-12-15,0,N/A,N/A,N/A
-1,owner,Alex Ray,alex.ray@example.com,N/A,2022-01-01,2025-01-01,2023-12-31,0,N/A,2023-12-15,0,N/A,HIIT,2023-12-15,25,25,9,Loved the energy.,N/A,0,0,2023-12-15,0,N/A,N/A,0,0,0,2023-12-15,2023-12-15,0,N/A,N/A,N/A
-1,owner,Alex Ray,alex.ray@example.com,N/A,2022-01-01,2025-01-01,2023-12-31,0,N/A,2023-12-20,0,N/A,Spin,2023-12-20,15,20,7,Music was a bit loud.,N/A,0,0,2023-12-20,0,N/A,N/A,0,0,0,2023-12-20,2023-12-20,0,N/A,N/A,N/A
-1,owner,Alex Ray,alex.ray@example.com,N/A,2022-01-01,2025-01-01,2023-12-31,0,N/A,2023-12-20,0,N/A,Zumba,2023-12-20,22,25,8,Fun workout!,N/A,0,0,2023-12-20,0,N/A,N/A,0,0,0,2023-12-20,2023-12-20,0,N/A,N/A,N/A
-8,trainer,Ben Carter,ben.carter@example.com,active,2023-02-01,2024-02-01,2023-12-28,8,Ben Carter,2023-12-01,0,N/A,N/A,2023-12-01,0,0,0,N/A,N/A,0,0,2023-12-01,0,N/A,N/A,0,0,0,2023-12-01,2023-12-01,1500,N/A,N/A,N/A
-8,trainer,Ben Carter,ben.carter@example.com,active,2023-02-01,2024-02-01,2023-11-30,8,Ben Carter,2023-11-01,0,N/A,N/A,2023-11-01,0,0,0,N/A,N/A,0,0,2023-11-01,0,N/A,N/A,0,0,0,2023-11-01,2023-11-01,1400,N/A,N/A,N/A
-8,trainer,Ben Carter,ben.carter@example.com,active,2023-02-01,2024-02-01,2023-10-31,8,Ben Carter,2023-10-01,0,N/A,N/A,2023-10-01,0,0,0,N/A,N/A,0,0,2023-10-01,0,N/A,N/A,0,0,0,2023-10-01,2023-10-01,1600,N/A,N/A,N/A
-11,member,Chloe Davis,chloe.davis@example.com,active,2023-10-05,2024-10-05,2023-12-28,8,Ben Carter,2023-12-28,0,N/A,N/A,2023-12-28,0,0,0,N/A,weight_loss,60,65,2023-12-28,60,cardio,Treadmill,1,30,0,2023-12-28,2023-12-28,0,2023-09-28,2023-10-05,N/A
-11,member,Chloe Davis,chloe.davis@example.com,active,2023-10-05,2024-10-05,2023-12-26,8,Ben Carter,2023-12-26,0,N/A,N/A,2023-12-26,0,0,0,N/A,weight_loss,60,65,2023-12-26,45,strength,Squats,3,10,50,2023-12-26,2023-12-26,0,2023-09-28,2023-10-05,N/A
-11,member,Chloe Davis,chloe.davis@example.com,active,2023-10-05,2024-10-05,2023-12-21,8,Ben Carter,2023-12-21,0,N/A,N/A,2023-12-21,0,0,0,N/A,weight_loss,60,65,2023-12-21,50,cardio,Elliptical,1,40,0,2023-12-21,2023-12-21,0,2023-09-28,2023-10-05,N/A
-13,member,David Evans,david.evans@example.com,active,2023-10-12,2024-10-12,2023-12-27,8,Ben Carter,2023-12-27,0,N/A,N/A,2023-12-27,0,0,0,N/A,muscle_gain,85,83,2023-12-27,75,strength,Bench Press,4,8,80,2023-12-27,2023-12-27,0,2023-10-01,2023-10-12,N/A
-13,member,David Evans,david.evans@example.com,active,2023-10-12,2024-10-12,2023-12-22,8,Ben Carter,2023-12-22,0,N/A,N/A,2023-12-22,0,0,0,N/A,muscle_gain,85,83,2023-12-22,60,strength,Deadlift,3,5,120,2023-12-22,2023-12-22,0,2023-10-01,2023-10-12,N/A
-13,member,David Evans,david.evans@example.com,active,2023-10-12,2024-10-12,2023-12-18,8,Ben Carter,2023-12-18,0,N/A,N/A,2023-12-18,0,0,0,N/A,muscle_gain,85,83,2023-12-18,65,strength,Pull-ups,5,10,0,2023-12-18,2023-12-18,0,2023-10-01,2023-10-12,N/A
-15,member,Fiona Green,fiona.green@example.com,expired,2022-12-01,2023-12-01,2023-11-25,8,Ben Carter,2023-11-25,0,N/A,N/A,2023-11-25,0,0,0,N/A,maintenance,70,70,2023-11-25,45,cardio,Rowing Machine,1,20,0,2023-11-25,2023-11-25,0,2022-11-20,2022-12-01,2023-12-02
-16,member,George Hill,george.hill@example.com,active,2023-11-08,2024-11-08,2023-12-29,17,Laura King,2023-12-29,0,N/A,N/A,2023-12-29,0,0,0,N/A,endurance,20,15,2023-12-29,90,cardio,Cycling,1,60,0,2023-12-29,2023-12-29,0,2023-11-01,2023-11-08,N/A
-17,trainer,Laura King,laura.king@example.com,active,2023-03-01,2024-03-01,2023-12-30,17,Laura King,2023-12-01,0,N/A,N/A,2023-12-01,0,0,0,N/A,N/A,0,0,2023-12-01,0,N/A,N/A,0,0,0,2023-12-01,2023-12-01,1800,N/A,N/A,N/A
-17,trainer,Laura King,laura.king@example.com,active,2023-03-01,2024-03-01,2023-11-28,17,Laura King,2023-11-01,0,N/A,N/A,2023-11-01,0,0,0,N/A,N/A,0,0,2023-11-01,0,N/A,N/A,0,0,0,2023-11-01,2023-11-01,1750,N/A,N/A,N/A
-28,member,Ivy Jones,ivy.jones@example.com,active,2023-12-01,2024-12-01,2023-12-30,17,Laura King,2023-12-30,0,N/A,N/A,2023-12-30,0,0,0,N/A,flexibility,10,8,2023-12-30,30,yoga,Downward Dog,5,1,0,2023-12-30,2023-12-30,0,2023-11-25,2023-12-01,N/A
-29,member,Henry Miller,henry.miller@example.com,expired,2023-01-20,2023-11-20,2023-10-15,8,Ben Carter,2023-10-15,0,N/A,N/A,2023-10-15,0,0,0,N/A,maintenance,80,78,2023-10-15,55,strength,Leg Press,3,12,100,2023-10-15,2023-10-15,0,2023-01-10,2023-01-20,2023-11-21
-... (180 more rows of generated data)
-```dart
+SECTION,PersonalMilestones
+name,icon,current,target,progress,gymRank,districtRank,stateRank
+Weight Loss Goal,⚖️,8,15,53,12,45,180
+Strength Training,💪,25,50,50,8,32,156
+Cardio Endurance,🏃,18,30,60,15,67,234
+
+SECTION,WorkoutHistory
+date,type,icon,duration,calories,exercises
+Today,Strength,💪,45,420,"Deadlift,Bench Press,Rows"
+Yesterday,Cardio,🏃,35,380,"Treadmill,Cycling,Burpees"
+2 days ago,Legs,🦵,50,450,"Squats,Leg Press,Calf Raises"
+3 days ago,Flexibility,🧘,30,180,"Yoga,Stretching,Meditation"
+4 days ago,Upper Body,💪,40,350,"Pull-ups,Lat Pulldown,Bicep Curls"
+5 days ago,HIIT,⚡,25,320,"HIIT,Jump Rope,Mountain Climbers"
+
+SECTION,MemberGoals
+name,icon,current,target,progress
+Weight Loss,⚖️,8,15,53
+Muscle Gain,💪,3,8,38
+Cardio Fitness,❤️,18,30,60
+
+SECTION,RevenueBreakdown
+category,amount,percentage,color
+Memberships,35000,60,#360167
+Personal Training,15000,26,#CF268A
+Classes,5000,9,#E65C9C
+Supplements,3000,5,#FB8CAB
+
+SECTION,MonthlyRevenue
+month,total
+Jan,45000
+Feb,48000
+Mar,52000
+Apr,55000
+May,58000
+Jun,58000
+
+SECTION,Members
+id,name,status,joinDate,plan,monthlyFee,lastVisit,totalVisits,daysLeft,revenue
+1,John Smith,active,2024-01-15,Premium,2500,2024-12-08,45,25,12500
+2,Sarah Johnson,expiring,2024-03-20,Basic,1500,2024-12-07,32,5,7500
+3,Mike Wilson,expired,2023-11-10,Premium,2500,2024-11-28,78,-15,25000
+4,Emily Davis,retained,2023-08-05,Premium,2500,2024-12-08,156,18,30000
+
+SECTION,Trainers
+id,name,specialization,rating,experience,monthlyRevenue,dailyClasses,totalClients,successRate,certifications
+1,Sarah Wilson,Strength & Conditioning,4.9,5 years,8200,6,28,92,"NASM-CPT,CSCS"
+2,Mike Rodriguez,Cardio & Weight Loss,4.7,3 years,6500,5,22,88,"ACE-CPT,Nutrition"
+3,Lisa Chen,Yoga & Flexibility,4.8,4 years,5800,4,35,95,"RYT-500,Pilates"
+4,David Thompson,CrossFit & HIIT,4.6,6 years,7200,5,25,90,"CrossFit L2,HIIT"
+
+SECTION,TrainerClients
+id,name,status,joinDate,plan,monthlyFee,lastSession,totalSessions,goal,progress,sessionsCompleted,revenue
+1,Alex Johnson,active,2024-01-15,Personal Training,4000,2024-12-08,24,Weight Loss,75,18,16000
+2,Maria Garcia,expiring,2024-03-20,Group Training,2000,2024-12-07,18,Strength,60,12,8000
+3,James Brown,expired,2023-11-10,Personal Training,4000,2024-11-28,45,Muscle Gain,85,35,20000
+4,Jennifer Lee,retained,2023-08-05,Premium Training,5000,2024-12-08,67,Cardio,90,50,25000
+
+SECTION,TrainerRevenueBreakdown
+category,amount,percentage,color
+Personal Training,5000,61,#360167
+Group Classes,2000,24,#CF268A
+Nutrition Coaching,800,10,#E65C9C
+Online Sessions,400,5,#FB8CAB
+
+SECTION,TrainerMonthlyRevenue
+month,total
+Jan,6800
+Feb,7200
+Mar,7800
+Apr,8000
+May,8200
+Jun,8200
+
+SECTION,TrainerSchedule
+id,className,time,type,duration,participants,location,description,maxCapacity,difficulty,equipment
+1,Morning Strength,6:00 AM - 7:00 AM,Group Class,60,12,Main Floor,Full body strength training with compound movements,15,Intermediate,Barbells & Dumbbells
+2,Personal Training - Alex,8:00 AM - 9:00 AM,Personal Training,60,1,Private Room 1,Weight loss focused training with cardio intervals,1,Beginner,Full Equipment Access
+3,HIIT Bootcamp,10:00 AM - 11:00 AM,Group Class,60,15,Studio A,High intensity interval training for all fitness levels,20,Advanced,Kettlebells & Resistance Bands
+4,Personal Training - Maria,2:00 PM - 3:00 PM,Personal Training,60,1,Private Room 2,Strength building and muscle toning program,1,Intermediate,Free Weights & Machines
+5,Evening Cardio,6:00 PM - 7:00 PM,Group Class,60,20,Main Floor,Mixed cardio workout with music and motivation,25,Beginner,Cardio Machines & Mats
+
+SECTION,OwnerObjectives
+name,icon,current,target,progress
+Monthly Revenue,💰,58,75,77
+Member Retention,👥,168,200,84
+Equipment Upgrade,🏋️,3,5,60
+Trainer Certification,🎓,2,4,50
+
+SECTION,WorkoutDistribution
+type,icon,count,color
+Strength,💪,8,#360167
+Cardio,🏃,6,#CF268A
+Flexibility,🧘,4,#E65C9C
+HIIT,⚡,3,#FB8CAB
+
+SECTION,WorkoutHeatmap
+week,day0,day1,day2,day3,day4,day5,day6
+1,1,2,0,1,2,1,0
+2,2,1,1,2,1,0,1
+3,1,2,2,1,0,2,1
+4,0,1,2,2,1,1,2
+5,2,0,1,1,2,1,0
+
+SECTION,TodaysClasses
+name,icon,time,instructor,duration,participants,maxParticipants,status,spotsLeft
+Morning Yoga,🧘,7:00 AM,Lisa Chen,60,12,15,available,3
+HIIT Bootcamp,⚡,10:00 AM,David Thompson,45,18,20,available,2
+Strength Training,💪,6:00 PM,Sarah Wilson,60,14,16,available,2
+Cardio Blast,🏃,7:30 PM,Mike Rodriguez,45,22,25,booked,0
+
+SECTION,RecentFeedback
+trainerName,comment,rating,workoutType,date
+Sarah Wilson,Excellent form corrections and motivating coaching!,5,Strength Training,Dec 7 2024
+Mike Rodriguez,Great cardio session pushed me to my limits safely.,4,Cardio,Dec 5 2024
+Lisa Chen,Very relaxing and helped improve my flexibility.,5,Yoga,Dec 3 2024
+
+SECTION,TrainerTasks
+name,icon,current,target,progress,status
+Client Check-ins,📞,22,30,73,in-progress
+Session Planning,📋,15,20,75,in-progress
+Certification Renewal,🎓,1,2,50,in-progress
+Equipment Maintenance,🔧,8,10,80,in-progress
+
+SECTION,MembershipDistribution
+name,value,color
+Active,65,#360167
+Expiring,20,#CF268A
+Expired,10,#E65C9C
+Retained,5,#FB8CAB
+
+SECTION,ClientGoalsDistribution
+name,value,color
+Weight Loss,45,#360167
+Strength,30,#CF268A
+Cardio,15,#E65C9C
+Flexibility,10,#FB8CAB
+
+SECTION,OwnerRevenueBreakdown
+category,amount,percentage,color
+Memberships,35000,60,#360167
+Personal Training,15000,26,#CF268A
+Classes,5000,9,#E65C9C
+Supplements,3000,5,#FB8CAB
+
+SECTION,TrainerMonthlyEarnings
+month,earnings,sessions,clients
+Jan,6800,45,22
+Feb,7200,48,24
+Mar,7800,52,26
+Apr,8000,55,27
+May,8200,58,28
+Jun,8200,60,28

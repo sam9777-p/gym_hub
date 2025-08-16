@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import '../data/colors.dart';
-import '../data/sample_data.dart';
+import '../colors.dart';
+import '../utils/csv_parser.dart';
+import '../widgets/custom_widgets.dart';
 import '../models/trends_modal.dart';
 import '../models/workout_modal.dart';
-import '../widgets/custom_widgets.dart';
+
 class MemberDashboard extends StatefulWidget {
   const MemberDashboard({super.key});
 
@@ -67,6 +68,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
+                                    // opacity: 0.9,
                                   ),
                                 ),
                               ],
@@ -89,6 +91,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
+                                // opacity: 0.9,
                               ),
                             ),
                           ],
@@ -120,6 +123,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
+                                    // opacity: 0.9,
                                   ),
                                 ),
                               ],
@@ -147,6 +151,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12,
+                                      // opacity: 0.9,
                                     ),
                                   ),
                                 ],
@@ -177,6 +182,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
+                                    // opacity: 0.9,
                                   ),
                                 ),
                               ],
@@ -218,7 +224,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                               flex: 2,
                               child: PieChart(
                                 PieChartData(
-                                  sections: SampleData.workoutDistribution.map((data) {
+                                  sections: CsvParser.getWorkoutDistribution().map((data) {
                                     return PieChartSectionData(
                                       value: data.count.toDouble(),
                                       color: data.color,
@@ -238,7 +244,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                                       if (event is FlTapUpEvent && pieTouchResponse?.touchedSection != null) {
                                         final index = pieTouchResponse!.touchedSection!.touchedSectionIndex;
                                         setState(() {
-                                          selectedWorkoutType = SampleData.workoutDistribution[index].type;
+                                          selectedWorkoutType = CsvParser.getWorkoutDistribution()[index].type;
                                           showWorkoutDetailsModal = true;
                                         });
                                       }
@@ -251,7 +257,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                               flex: 1,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: SampleData.workoutDistribution.map((data) {
+                                children: CsvParser.getWorkoutDistribution().map((data) {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 4),
                                     child: Row(
@@ -319,7 +325,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                       ),
                       const SizedBox(height: 8),
                       Column(
-                        children: SampleData.workoutHeatmap.map((week) {
+                        children: CsvParser.getWorkoutHeatmap().map((week) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 2),
                             child: Row(
@@ -399,7 +405,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      ...SampleData.todaysClasses.map((classItem) => Padding(
+                      ...CsvParser.getTodaysClasses().map((classItem) => Padding(
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Container(
                           padding: const EdgeInsets.all(12),
@@ -482,7 +488,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      ...SampleData.memberGoals.map((goal) => Padding(
+                      ...CsvParser.getMemberGoals().map((goal) => Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: Column(
                           children: [
@@ -577,7 +583,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      ...SampleData.workoutHistory.take(2).map((workout) => Padding(
+                      ...CsvParser.getWorkoutHistory().take(2).map((workout) => Padding(
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Container(
                           padding: const EdgeInsets.all(12),
@@ -659,7 +665,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      ...SampleData.recentFeedback.map((feedback) => Padding(
+                      ...CsvParser.getRecentFeedback().map((feedback) => Padding(
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Container(
                           padding: const EdgeInsets.all(12),
@@ -736,11 +742,11 @@ class _MemberDashboardState extends State<MemberDashboard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      const Row(
                         children: [
-                          Icon(Icons.emoji_events, color: AppColors.mediumVioletRed),
-                          const SizedBox(width: 8),
-                          const Text(
+                          Icon(Icons.emoji_events, color: AppColors.positiveGreen),
+                          SizedBox(width: 8),
+                          Text(
                             '🏆 Recent Achievements',
                             style: TextStyle(
                               fontSize: 18,
@@ -844,12 +850,12 @@ class _MemberDashboardState extends State<MemberDashboard> {
   }
 
   Widget _buildWorkoutDetailsModal() {
-    final workoutData = SampleData.workoutDistribution.firstWhere(
+    final workoutData = CsvParser.getWorkoutDistribution().firstWhere(
           (w) => w.type == selectedWorkoutType,
-      orElse: () => SampleData.workoutDistribution.first,
+      orElse: () => CsvParser.getWorkoutDistribution().first,
     );
 
-    final relatedWorkouts = SampleData.workoutHistory
+    final relatedWorkouts = CsvParser.getWorkoutHistory()
         .where((w) => w.type.toLowerCase().contains(selectedWorkoutType.toLowerCase()))
         .toList();
 

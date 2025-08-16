@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gym_hub/screens/main_screen.dart';
-import 'package:gym_hub/theme/app_theme.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'csv_upload_screen.dart';
 
-// This is the entry point of the Flutter application.
-void main() {
-  runApp(const ProviderScope(child: GymHubApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const GymManagementApp());
 }
 
-// GymHubApp is the root widget of the application.
-// It sets up the theme and the main screen.
-class GymHubApp extends StatelessWidget {
-  const GymHubApp({Key? key}) : super(key: key);
+class GymManagementApp extends StatelessWidget {
+  const GymManagementApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Gym Hub',
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      home: const GymManagementApp(),
+      title: 'Gym Management App',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: GoogleFonts.interTextTheme(),
+        useMaterial3: true,
+      ),
+      home: const CsvUploadScreen(),
     );
   }
 }

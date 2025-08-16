@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../data/colors.dart';
-import '../data/sample_data.dart';
+import '../colors.dart';
+import '../utils/csv_parser.dart';
 import '../widgets/custom_widgets.dart';
 
 class TrendsModal extends StatelessWidget {
@@ -73,7 +73,7 @@ class TrendsModal extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      ...SampleData.personalMilestones.map((milestone) => Padding(
+                      ...CsvParser.getPersonalMilestones().map((milestone) => Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: Column(
                           children: [
