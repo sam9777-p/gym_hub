@@ -151,3 +151,14 @@ Mar,7800,52,26
 Apr,8000,55,27
 May,8200,58,28
 Jun,8200,60,28
+
+SECTION,AttendanceRecords
+date,status,details
+2024-08-18,Present,Checked in at 7:00 AM
+2024-08-17,Present,Checked in at 6:30 AM
+2024-08-16,Absent,No Check-in
+2024-08-15,Present,Checked in at 7:15 AM
+2024-08-14,Present,Checked in at 7:05 AM
+2024-08-13,Absent,No Check-in
+2024-08-12,Present,Checked in at 6:45 AM
+2024-08-11,Present,Checked in at 7:20 AM

@@ -5,6 +5,8 @@ import '../utils/csv_parser.dart';
 import '../widgets/custom_widgets.dart';
 import '../models/trends_modal.dart';
 import '../models/workout_modal.dart';
+import '../models/workout_distribution_modal.dart';
+import '../models/attendance_modal.dart';
 
 class MemberDashboard extends StatefulWidget {
   const MemberDashboard({super.key});
@@ -16,8 +18,8 @@ class MemberDashboard extends StatefulWidget {
 class _MemberDashboardState extends State<MemberDashboard> {
   bool showTrendsModal = false;
   bool showWorkoutModal = false;
-  bool showWorkoutDetailsModal = false;
-  String selectedWorkoutType = '';
+  bool showWorkoutDistributionModal = false;
+  bool showAttendanceModal = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,6 @@ class _MemberDashboardState extends State<MemberDashboard> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              // ... existing header card code ...
               // Header Card
               GradientCard(
                 gradient: AppColors.primaryGradient,
@@ -68,7 +69,6 @@ class _MemberDashboardState extends State<MemberDashboard> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
-                                    // opacity: 0.9,
                                   ),
                                 ),
                               ],
@@ -91,7 +91,6 @@ class _MemberDashboardState extends State<MemberDashboard> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12,
-                                // opacity: 0.9,
                               ),
                             ),
                           ],
@@ -102,31 +101,33 @@ class _MemberDashboardState extends State<MemberDashboard> {
                     Row(
                       children: [
                         Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Column(
-                              children: [
-                                Text(
-                                  '12',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                          child: GestureDetector(
+                            onTap: () => setState(() => showWorkoutDistributionModal = true),
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Column(
+                                children: [
+                                  Text(
+                                    '12',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'Workouts',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    // opacity: 0.9,
+                                  Text(
+                                    'Workouts',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -151,7 +152,6 @@ class _MemberDashboardState extends State<MemberDashboard> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12,
-                                      // opacity: 0.9,
                                     ),
                                   ),
                                 ],
@@ -161,31 +161,33 @@ class _MemberDashboardState extends State<MemberDashboard> {
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Column(
-                              children: [
-                                Text(
-                                  '85%',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                          child: GestureDetector(
+                            onTap: () => setState(() => showAttendanceModal = true),
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Column(
+                                children: [
+                                  Text(
+                                    '85%',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'Attendance',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    // opacity: 0.9,
+                                  Text(
+                                    'Attendance',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -196,100 +198,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
               ),
               const SizedBox(height: 16),
 
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Row(
-                        children: [
-                          Icon(Icons.pie_chart, color: AppColors.royalFuchsia),
-                          SizedBox(width: 8),
-                          Text(
-                            '📊 Workout Distribution',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        height: 200,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: PieChart(
-                                PieChartData(
-                                  sections: CsvParser.getWorkoutDistribution().map((data) {
-                                    return PieChartSectionData(
-                                      value: data.count.toDouble(),
-                                      color: data.color,
-                                      title: '${data.count}',
-                                      radius: 60,
-                                      titleStyle: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    );
-                                  }).toList(),
-                                  sectionsSpace: 2,
-                                  centerSpaceRadius: 40,
-                                  pieTouchData: PieTouchData(
-                                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                                      if (event is FlTapUpEvent && pieTouchResponse?.touchedSection != null) {
-                                        final index = pieTouchResponse!.touchedSection!.touchedSectionIndex;
-                                        setState(() {
-                                          selectedWorkoutType = CsvParser.getWorkoutDistribution()[index].type;
-                                          showWorkoutDetailsModal = true;
-                                        });
-                                      }
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: CsvParser.getWorkoutDistribution().map((data) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 4),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          width: 12,
-                                          height: 12,
-                                          decoration: BoxDecoration(
-                                            color: data.color,
-                                            shape: BoxShape.circle,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          '${data.icon} ${data.type}',
-                                          style: const TextStyle(fontSize: 12),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-
+              // Workout Heatmap
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -385,6 +294,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
               ),
               const SizedBox(height: 16),
 
+              // Today's Classes
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -645,6 +555,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
               ),
               const SizedBox(height: 16),
 
+              // Recent Feedback
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -736,6 +647,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
               ),
               const SizedBox(height: 16),
 
+              // Recent Achievements
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -839,115 +751,13 @@ class _MemberDashboardState extends State<MemberDashboard> {
             ],
           ),
         ),
-        if (showTrendsModal)
-          TrendsModal(onClose: () => setState(() => showTrendsModal = false)),
-        if (showWorkoutModal)
-          WorkoutModal(onClose: () => setState(() => showWorkoutModal = false)),
-        if (showWorkoutDetailsModal)
-          _buildWorkoutDetailsModal(),
+
+        // MODALS
+        if (showTrendsModal) TrendsModal(onClose: () => setState(() => showTrendsModal = false)),
+        if (showWorkoutModal) WorkoutModal(onClose: () => setState(() => showWorkoutModal = false)),
+        if (showWorkoutDistributionModal) WorkoutDistributionModal(onClose: () => setState(() => showWorkoutDistributionModal = false)),
+        if (showAttendanceModal) AttendanceModal(onClose: () => setState(() => showAttendanceModal = false)),
       ],
-    );
-  }
-
-  Widget _buildWorkoutDetailsModal() {
-    final workoutData = CsvParser.getWorkoutDistribution().firstWhere(
-          (w) => w.type == selectedWorkoutType,
-      orElse: () => CsvParser.getWorkoutDistribution().first,
-    );
-
-    final relatedWorkouts = CsvParser.getWorkoutHistory()
-        .where((w) => w.type.toLowerCase().contains(selectedWorkoutType.toLowerCase()))
-        .toList();
-
-    return Container(
-      color: Colors.black.withOpacity(0.5),
-      child: Center(
-        child: Container(
-          margin: const EdgeInsets.all(20),
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${workoutData.icon} $selectedWorkoutType Details',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () => setState(() => showWorkoutDetailsModal = false),
-                    icon: const Icon(Icons.close),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Total Sessions: ${workoutData.count}',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Recent Sessions:',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 8),
-              ...relatedWorkouts.take(3).map((workout) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: AppColors.neutral,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            workout.type,
-                            style: const TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            workout.date,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '${workout.duration} min',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.deepViolet,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

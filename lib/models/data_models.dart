@@ -80,6 +80,18 @@ class MonthlyRevenue {
   });
 }
 
+class AttendanceRecord {
+  final String date;
+  final String status; // e.g., 'Present', 'Absent'
+  final String details; // e.g., 'Check-in Time', 'No Check-in'
+
+  AttendanceRecord({
+    required this.date,
+    required this.status,
+    required this.details,
+  });
+}
+
 class Member {
   final int id;
   final String name;

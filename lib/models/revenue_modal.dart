@@ -64,7 +64,7 @@ class RevenueModal extends StatelessWidget {
                                 sections: CsvParser.getOwnerRevenueBreakdown().map((item) =>
                                     PieChartSectionData(
                                       value: item.percentage.toDouble(),
-                                      color: Color(int.parse(item.color.replaceAll('#', 'FF'), radix: 16)),
+                                      color: CsvParser.getColorFromHex(item.color),
                                       radius: 70,
                                       title: '${item.percentage}%',
                                       titleStyle: const TextStyle(
@@ -91,7 +91,7 @@ class RevenueModal extends StatelessWidget {
                                       width: 12,
                                       height: 12,
                                       decoration: BoxDecoration(
-                                        color: Color(int.parse(item.color.replaceAll('#', 'FF'), radix: 16)),
+                                        color: CsvParser.getColorFromHex(item.color),
                                         shape: BoxShape.circle,
                                       ),
                                     ),
