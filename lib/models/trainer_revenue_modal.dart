@@ -10,6 +10,10 @@ class TrainerRevenueModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current theme's brightness to determine if it's dark mode
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDarkMode ? Colors.white : Colors.black;
+
     return Container(
       color: Colors.black.withOpacity(0.5),
       child: Center(
@@ -17,7 +21,7 @@ class TrainerRevenueModal extends StatelessWidget {
           margin: const EdgeInsets.all(20),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(16),
           ),
           child: SingleChildScrollView(
@@ -27,17 +31,18 @@ class TrainerRevenueModal extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       '📈 Revenue Analytics',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Inter',
+                        color: textColor,
                       ),
                     ),
                     IconButton(
                       onPressed: onClose,
-                      icon: const Icon(Icons.close),
+                      icon: Icon(Icons.close, color: textColor),
                     ),
                   ],
                 ),
@@ -48,12 +53,13 @@ class TrainerRevenueModal extends StatelessWidget {
                     Expanded(
                       child: Column(
                         children: [
-                          const Text(
+                          Text(
                             'Revenue Breakdown',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Inter',
+                              color: textColor,
                             ),
                           ),
                           const SizedBox(height: 12),
@@ -98,16 +104,17 @@ class TrainerRevenueModal extends StatelessWidget {
                                     const SizedBox(width: 6),
                                     Text(
                                       item.category,
-                                      style: const TextStyle(fontSize: 12, fontFamily: 'Inter'),
+                                      style: TextStyle(fontSize: 12, fontFamily: 'Inter', color: textColor),
                                     ),
                                   ],
                                 ),
                                 Text(
                                   '₹${(item.amount / 1000).toStringAsFixed(1)}k',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Inter',
+                                    color: textColor,
                                   ),
                                 ),
                               ],
@@ -123,12 +130,13 @@ class TrainerRevenueModal extends StatelessWidget {
 
                 Column(
                   children: [
-                    const Text(
+                    Text(
                       'Monthly Earnings Trend',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Inter',
+                        color: textColor,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -149,10 +157,10 @@ class TrainerRevenueModal extends StatelessWidget {
                                   if (value.toInt() < earnings.length) {
                                     return Text(
                                       earnings[value.toInt()]['month'],
-                                      style: const TextStyle(fontSize: 10, fontFamily: 'Inter'),
+                                      style: TextStyle(fontSize: 10, fontFamily: 'Inter', color: textColor),
                                     );
                                   }
-                                  return const Text('');
+                                  return Text('', style: TextStyle(color: textColor));
                                 },
                               ),
                             ),
@@ -188,7 +196,7 @@ class TrainerRevenueModal extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            const Text(
+                            Text(
                               '₹8.2k',
                               style: TextStyle(
                                 fontSize: 18,

@@ -16,7 +16,7 @@ class WorkoutModal extends StatelessWidget {
           margin: const EdgeInsets.all(16),
           constraints: const BoxConstraints(maxHeight: 600),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(

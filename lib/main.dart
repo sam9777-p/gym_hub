@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'csv_upload_screen.dart';
+import 'theme/app_theme.dart'; // Import the new theme file
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,10 +16,9 @@ class GymManagementApp extends StatelessWidget {
     return MaterialApp(
       title: 'Gym Management App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: GoogleFonts.interTextTheme(),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.lightTheme, // Use the light theme
+      darkTheme: AppTheme.darkTheme, // Use the dark theme
+      themeMode: ThemeMode.system, // Automatically switch between themes
       home: const CsvUploadScreen(),
     );
   }

@@ -23,6 +23,9 @@ class _MemberDashboardState extends State<MemberDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current theme's brightness to determine if it's dark mode
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Stack(
       children: [
         SingleChildScrollView(
@@ -243,7 +246,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                                 Color color;
                                 switch (intensity) {
                                   case 0:
-                                    color = Colors.grey[200]!;
+                                    color = isDarkMode ? Colors.grey[800]! : Colors.grey[200]!;
                                     break;
                                   case 1:
                                     color = AppColors.flamingoPink.withOpacity(0.6);
@@ -252,7 +255,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                                     color = AppColors.royalFuchsia;
                                     break;
                                   default:
-                                    color = Colors.grey[200]!;
+                                    color = isDarkMode ? Colors.grey[800]! : Colors.grey[200]!;
                                 }
                                 return Container(
                                   width: 24,
@@ -276,7 +279,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                             style: TextStyle(fontSize: 10, color: Colors.grey[600]),
                           ),
                           const SizedBox(width: 4),
-                          Container(width: 12, height: 12, decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(2))),
+                          Container(width: 12, height: 12, decoration: BoxDecoration(color: isDarkMode ? Colors.grey[800] : Colors.grey[200], borderRadius: BorderRadius.circular(2))),
                           const SizedBox(width: 2),
                           Container(width: 12, height: 12, decoration: BoxDecoration(color: AppColors.flamingoPink.withOpacity(0.6), borderRadius: BorderRadius.circular(2))),
                           const SizedBox(width: 2),
@@ -320,7 +323,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                         child: Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: AppColors.neutral,
+                            color: isDarkMode ? Theme.of(context).cardColor : AppColors.neutral,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
@@ -498,7 +501,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                         child: Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: AppColors.neutral,
+                            color: isDarkMode ? Theme.of(context).cardColor : AppColors.neutral,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
@@ -581,7 +584,7 @@ class _MemberDashboardState extends State<MemberDashboard> {
                         child: Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: AppColors.neutral,
+                            color: isDarkMode ? Theme.of(context).cardColor : AppColors.neutral,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Column(

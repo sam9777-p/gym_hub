@@ -9,6 +9,14 @@ class AppColors {
   static const Color raspberryPink = Color(0xFFE65C9C);
   static const Color flamingoPink = Color(0xFFFB8CAB);
 
+  // static const Color deepViolet = Color(0xFFB13DDE);
+  // static const Color patriarch = Color(0xFFDB5A60);
+  // static const Color mediumVioletRed = Color(0xFFF375AE);
+  // static const Color royalFuchsia = Color(0xFFE6A6D2);
+  // static const Color raspberryPink = Color(0xFFFFB3D9);
+  // static const Color flamingoPink = Color(0xFFFFCCEC);
+
+
   // Accent colors
   static const Color positive = Color(0xFF8AE234);
   static const Color warning = Color(0xFFFFC300);
@@ -19,23 +27,40 @@ class AppColors {
   static const Color positiveGreen = positive;
   static const Color warningYellow = warning;
   static const Color alertRed = alert;
+  static const Color background = Color(0xFF1E1E1E);
+
+
+
+
 
   // Gradients
   static const LinearGradient primaryGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [deepViolet, royalFuchsia, flamingoPink],
+    colors: [
+      Color(0xFF320B4C),
+      Color(0xFF6B1D8C),
+      Color(0xFFB13DDE),
+    ],
   );
 
   static const LinearGradient trainerGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [patriarch, mediumVioletRed, raspberryPink],
+    colors: [
+      Color(0xFF8B2D5D),
+      Color(0xFFDB5A60),
+      Color(0xFFF375AE),
+    ],
   );
 
   static const LinearGradient ownerGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [deepViolet, mediumVioletRed, flamingoPink],
+    colors: [
+      Color(0xFF320B4C),
+      Color(0xFFF375AE),
+      Color(0xFFFFB3D9),
+    ],
   );
 }
