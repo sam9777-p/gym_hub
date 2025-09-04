@@ -15,6 +15,7 @@ class OwnerDashboard extends StatefulWidget {
 }
 
 class _OwnerDashboardState extends State<OwnerDashboard> {
+  // State variables for controlling the visibility of different management modals.
   bool showRevenueModal = false;
   bool showMembersModal = false;
   bool showTrainersModal = false;
@@ -203,9 +204,10 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
-
+              const SizedBox(height: 16 ),
+              // A card dedicated to tracking and visualizing the gym's main business objectives.
               // Business Objectives
+
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+// Data model for a personal milestone, tracking a member's progress against a target.
 class PersonalMilestone {
   final String name;
   final String icon;
@@ -22,6 +23,7 @@ class PersonalMilestone {
   });
 }
 
+// Data model for a single workout session, including exercises, duration, and calories.
 class WorkoutHistory {
   final String date;
   final String type;

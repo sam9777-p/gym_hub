@@ -16,6 +16,7 @@ class MemberDashboard extends StatefulWidget {
 }
 
 class _MemberDashboardState extends State<MemberDashboard> {
+  // State variables to control the visibility of different modal pop-ups.
   bool showTrendsModal = false;
   bool showWorkoutModal = false;
   bool showWorkoutDistributionModal = false;

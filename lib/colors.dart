@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Centralized color definitions to ensure a consistent color palette throughout the application.
 class AppColors {
   // Primary colors
   static const Color deepViolet = Color(0xFF360167);

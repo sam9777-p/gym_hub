@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'csv_upload_screen.dart';
 import 'theme/app_theme.dart'; // Import the new theme file
 
+// The main entry point for the Gym Hub application.
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const GymManagementApp());

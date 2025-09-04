@@ -3,7 +3,7 @@ import 'screens/member_dashboard.dart';
 import 'screens/trainer_dashboard.dart';
 import 'screens/owner_dashboard.dart';
 import 'colors.dart';
-
+// Dynamically builds the correct dashboard screen based on the selected user role.
 enum UserRole { member, trainer, owner }
 
 class GymDashboard extends StatefulWidget {

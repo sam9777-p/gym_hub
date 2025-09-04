@@ -4,6 +4,10 @@ import 'package:csv/csv.dart';
 import '../models/data_models.dart';
 import '../colors.dart';
 
+// Utility class for loading and parsing data from a CSV file.
+// It handles file I/O, data structuring, and converting raw CSV rows into
+// specific data models used across the app.
+
 class CsvParser {
   static Map<String, List<List<dynamic>>> _parsedData = {};
   static bool _isLoaded = false;

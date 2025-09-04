@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../colors.dart';
 import '../utils/csv_parser.dart';
 
+
+// A modal view to display a member's complete workout history.
 class TrainersModal extends StatelessWidget {
   final VoidCallback onClose;
 

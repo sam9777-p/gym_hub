@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import '../colors.dart';
 
+// Central hub for reusable custom Flutter widgets.
+// This file helps maintain a consistent UI style and reduces code duplication.
+
+// A circular progress indicator widget with customizable size and stroke width.
 class CircularProgress extends StatelessWidget {
   final int value;
   final double size;
@@ -44,6 +48,7 @@ class CircularProgress extends StatelessWidget {
   }
 }
 
+// A generic card widget with a gradient background, suitable for hero sections.
 class GradientCard extends StatelessWidget {
   final Widget child;
   final Gradient gradient;
@@ -113,6 +118,7 @@ class CustomButton extends StatelessWidget {
   }
 }
 
+// A standardized progress bar that visually represents a percentage
 class ProgressBar extends StatelessWidget {
   final int value;
   final double height;
